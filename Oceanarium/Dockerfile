@@ -24,10 +24,13 @@ RUN dotnet publish "./Oceanarium.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 FROM base AS final
 WORKDIR /app
-RUN mkdir -p /data && chmod -R 777 /data
 
+USER root
+RUN mkdir -p /data && chmod -R 777 /data
 COPY --from=publish /app/publish .
 COPY --from=publish /data /data
 RUN chmod -R 777 /data/Oceanarium.db
+USER $APP_UID
 
 ENTRYPOINT ["dotnet", "Oceanarium.dll"]
+
