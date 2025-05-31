@@ -1,0 +1,87 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Exibitions.CreateModel
+@{
+}
+
+<form method="post" enctype="multipart/form-data">
+	@* <input asp-for="newExibition.Id" hidden /> *@
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Create Exebition</h2>
+			<hr />
+		</div>
+		<div asp-validation-summary="ModelOnly"></div>
+		<div class="mb-3">
+			<label asp-for="newExibition.Name" class="form-label"></label>
+			<input asp-for="newExibition.Name" class="form-control" />
+			<span asp-validation-for="newExibition.Name" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newExibition.Description" class="form-label"></label>
+			<textarea asp-for="newExibition.Description" class="form-control"></textarea>
+			<span asp-validation-for="newExibition.Description" class="text-danger"></span>
+		</div>
+
+		<div class=" mb-3">
+			<label class="form-label">Exibition type</label>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" asp-for="newExibition.IsPermanent" value="true" id="permanentOption" />
+				<label class="form-check-label" for="permanentOption">Permanent</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" asp-for="newExibition.IsPermanent" value="false" id="temporaryOption" />
+				<label class="form-check-label" for="permanentOption">Temporary</label>
+			</div>
+			<span asp-validation-for="newExibition.IsPermanent" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newExibition.StartDate" class="form-label"></label>
+			<input asp-for="newExibition.StartDate" class="form-control" type="datetime-local" id="newExibition_StartDate" />
+			<span asp-validation-for="newExibition.StartDate" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newExibition.EndDate" class="form-label"></label>
+			<input asp-for="newExibition.EndDate" class="form-control" type="datetime-local" id="newExibition_EndDate" />
+			<span asp-validation-for="newExibition.EndDate" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label for="file" class="form-label">Image</label>
+			<input type="file" id="file" name="file" class="form-control" />
+			<span asp-validation-for="newExibition.ImageUrl" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6 col-md-3">
+			<button type="submit" class="btn btn-primary form-control">Create</button>
+		</div>
+		<div class="col-6 col-md-3">
+			<a asp-page="./Index" class="btn btn-outline-secondary border form-control">
+				Back to List
+			</a>
+		</div>
+	</div>
+
+</form>
+
+@if (!ModelState.IsValid)
+{
+	<div class="alert alert-danger">
+		<ul>
+			@foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+			{
+				<li>@error.ErrorMessage</li>
+			}
+		</ul>
+	</div>
+}
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+		<script src="~/js/PermanentTemporaryExibition.js"></script>
+	}
+}

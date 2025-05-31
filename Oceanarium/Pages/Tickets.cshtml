@@ -1,0 +1,97 @@
+﻿@page
+@model Oceanarium.Pages.TicketsModel
+
+<div class="container text-center mt-5">
+    <h2>Tickets for exibitions</h2>
+    <div class="" >
+        <h4 class="alert-heading">Box Office:</h4>
+        <p>Tickets for the exhibitions can be purchased at the ticket office from 9:00 AM to 7:00 PM.</p>
+        <h4 class="alert-heading">Working ours:</h4>
+        <p>The exhibitions are open from 9:00 AM to 8:00 PM. </p>
+        <h4 class="alert-heading">Prices for exibitionis:</h4>
+        <span class="mx-3">Normal - 40 zł</span>
+        <span class="mx-3">Children till 12 - 20 zł</span>
+        <span class="mx-3">Other discounts - 30 zł</span>
+    </div>
+
+    <h3 class="mt-5">Choose an event to buy a ticket online</h3>
+    <p>If you already have an event ticket, don't forget, you also need a ticket to enter the oceanarium. </p>
+
+    <form method="post" asp-page-handler="CreateOrder" id="orderForm">
+        <div>
+            <label for="SelectedEventId">Select Event</label>
+            <select id="SelectedEventId" name="TicketsOrder.EventId" class="form-control" onchange="updatePriceAll()" required>
+                <option value="">Select Event</option>
+                @foreach (var objEv in Model.EventsList)
+                {
+                    var isPast = objEv.EndDate < DateTime.Now;
+                    var soldOut = objEv.MaxTickets == 0;
+
+                    if(!isPast && !soldOut)
+                    {
+                        var isSelected = Model.EventId.HasValue && Model.EventId.Value == objEv.Id;
+
+                        <option value="@objEv.Id" data-max="@objEv.MaxTickets" selected="@(isSelected ? "selected" : null)">
+                            @objEv.Name (@objEv.MaxTickets tickets left)
+                        </option>
+                    }
+                }
+                @if (!Model.EventsList.Any(ev => ev.MaxTickets > 0 && ev.EndDate > DateTime.Now))
+                {
+                    <option disabled>No events available</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label for="BuyerEmail">Email</label>
+            <input type="email" id="BuyerEmail" name="TicketsOrder.BuyerEmail" class="form-control" required />
+        </div>
+
+        <div id="ticketContainer">
+            <div class="ticket" data-ticket-index="0">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <label for="DiscountType_0">Ticket 1</label>
+                    <select id="DiscountType_0" name="TicketsOrder.Tickets[0].DiscountType" class="form-control ticketDiscountType" onchange="updatePrice(this)" required>
+                        <option value="" selected disabled>Select Ticket Type</option>
+                        @foreach (string type in Model.TicketsOrder.Tickets[0].DiscountOptions)
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    </select>
+
+                    <span>Price:</span>
+                    <span class="eventPrice">0</span>
+
+                    <button type="button" class="btn btn-primary mt-4" onclick="removeTicket(this)">Remove Ticket</button>
+                </div>  
+            </div> 
+        </div>
+        <button id="addTicketButton" type="button" class="btn btn-primary mt-4" onclick="addTicket()">Add Ticket</button>
+        <div id="totalPriceContainer">
+            <h3 class="mt-4">Total price: <span id="totalPrice">0.00</span></h3>
+        </div>
+        <div>
+            <label for="PaymentMethod">Payment Method</label>
+            <select id="PaymentMethod" name="TicketsOrder.PaymentMethod" class="form-control" required>
+                <option value="" disabled selected>Select Payment Method</option>
+                <option value="Card">Card</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Blik">Blik</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Buy</button>
+    </form>
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success mt-3">
+            <strong>Success!</strong> @TempData["success"]
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    <script src="~/js/TicketOrder.js"></script>
+}
+

@@ -1,0 +1,79 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Tickets.CreateModel
+@{
+}
+<form method="post" asp-page-handler="CreateTicket">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Create Ticket</h2>
+			<hr />
+		</div>
+
+		<div class="mb-3">
+			<label for="orderCode" class="form-label">Order Code</label>
+			<input id="orderCode" name="orderCode" class="form-control" />
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newTicket.OrderId" class="form-label">Order Id</label>
+			<input asp-for="newTicket.OrderId" type="number" class="form-control" readonly/>
+		</div>
+
+		<div>
+			<label for="newTicket.EventId" class="form-label">Event</label>
+			<input asp-for="newTicket.EventId" type="number" class="form-control" readonly />
+		</div>
+
+		<div>
+			<label for="SelectedEventId" class="form-label">Event</label>
+			<span id="eventName" class="form-control"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newTicket.DiscountType" class="form-label">Discount type</label>
+			<select asp-for="newTicket.DiscountType" class=" form-control discount-select">
+				<option value="" disabled selected>Select Discount type</option>
+				<option value="Adult">Adult</option>
+				<option value="Child">Child</option>
+				<option value="Student">Student</option>
+				<option value="Senior">Senior</option>
+			</select>
+			<span asp-validation-for="newTicket.DiscountType" class="text-danger"></span>
+		</div>
+
+		<div>
+			<label for="ticketPrice" class="form-label">Price</label>
+			<span id="ticketPrice" class="form-control"></span>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-6 col-md-3">
+			<button type="submit" class="btn btn-primary form-control">Create</button>
+		</div>
+		<div class="col-6 col-md-3">
+			<a asp-page="./Index" class="btn btn-outline-secondary border form-control">
+				Back to List
+			</a>
+		</div>
+	</div>
+</form>
+
+@if (!ModelState.IsValid)
+{
+	<div class="alert alert-danger">
+		<ul>
+			@foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+			{
+				<li>@error.ErrorMessage</li>
+			}
+		</ul>
+	</div>
+}
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+		<script src="~/js/AdminTicketCreate.js"></script>
+	}
+}

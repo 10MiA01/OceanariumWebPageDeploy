@@ -1,0 +1,85 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Events.CreateModel
+@{
+}
+
+<form method="post" asp-area="Admin">
+	@* <input asp-for="newEvent.Id" hidden />  not in use cause reads it as empty*@
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Create Event</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="newEvent.Name" class="form-label"></label>
+			<input asp-for="newEvent.Name" class="form-control" />
+			<span asp-validation-for="newEvent.Name" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newEvent.Description" class="form-label"></label>
+			<textarea asp-for="newEvent.Description" class="form-control"></textarea>
+			<span asp-validation-for="newEvent.Description" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newEvent.StartDate" class="form-label"></label>
+			<input asp-for="newEvent.StartDate" class="form-control" type="datetime-local" />
+			<span asp-validation-for="newEvent.StartDate" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newEvent.EndDate" class="form-label"></label>
+			<input asp-for="newEvent.EndDate" class="form-control" type="datetime-local" />
+			<span asp-validation-for="newEvent.EndDate" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newEvent.Price" class="form-label"></label>
+			<input asp-for="newEvent.Price" class="form-control" />
+			<span asp-validation-for="newEvent.Price" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newEvent.MaxTicketsDefault" class="form-label"></label>
+			<input asp-for="newEvent.MaxTicketsDefault" class="form-control" type="number"  />
+			<span asp-validation-for="newEvent.MaxTicketsDefault" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="newEvent.MaxTickets" class="form-label"></label>
+			<input asp-for="newEvent.MaxTickets" class="form-control" type="number" />
+			<span asp-validation-for="newEvent.MaxTickets" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6 col-md-3">
+			<button type="submit" class="btn btn-primary form-control">Create</button>
+		</div>
+		<div class="col-6 col-md-3">
+			<a asp-page="./Index" class="btn btn-outline-secondary border form-control">
+				Back to List
+			</a>
+		</div>
+	</div>
+
+</form>
+
+@if (!ModelState.IsValid)
+{
+	<div class="alert alert-danger">
+		<ul>
+			@foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+			{
+				<li>@error.ErrorMessage</li>
+			}
+		</ul>
+	</div>
+}
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}
+

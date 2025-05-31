@@ -1,0 +1,41 @@
+﻿@page
+@model Oceanarium.Pages.ContactModel
+
+<div class="container mt-5">
+	<h1>Contact Us</h1>
+	<div class="my-1 fs-4">Somecity, somewhere street, 55</div>
+	<div class="my-1 fs-4"><a href="tel:+00000000000">+00 000000000</a></div>
+	<div class="my-1 fs-4"><a href="mailto:info@skyoceanarium.com">info@skyoceanarium.com</a></div>
+	<div class="my-1 fs-4">If you have any questions or comments, please feel free to reach out to us using the form below.</div>
+
+	<form class="mt-4" asp-page-handler="Post">
+		<div class="form-group" >
+			<label for="name">Full name</label>
+			<input type="text" id="name" name="Name" class="form-control" placeholder="Enter your full name" required>
+		</div>
+		<div class="form-group mt-3">
+			<label for="email">Email adress</label>
+			<input type="email" id="email" name="Email" class="form-control" placeholder="Enter your email" required/>
+		</div>
+		<div class="form-group mt-3">
+			<label for="subject">Subject</label>
+			<input type="text" id="subject" name="Subject" class="form-control" placeholder="Enter the subject" required/>
+		</div>
+		<div class="form-group mt-3">
+			<label for="message">Your Message</label>
+			<textarea type="text" id="message" name="Message" class="form-control" rows="5" placeholder="Enter your message" required></textarea>
+		</div>
+		<div class="form-group mt-3">
+			<button type="submit" class="btn btn-primary">Send Message</button>
+		</div>
+	</form>
+
+</div>
+
+
+@if (TempData["success"] != null)
+{
+	<div class="alert alert-success mt-3">
+		<strong>Success!</strong> @TempData["success"]
+	</div>
+}

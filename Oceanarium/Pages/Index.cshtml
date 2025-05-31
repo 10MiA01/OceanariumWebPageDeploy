@@ -1,0 +1,74 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="container text-center">
+        <section class="welcome">
+            <h1>Welcome to Sky Oceanarium!</h1>
+            <p class="fs-5">Explore the underwater world with us. Amazing sea creatures, breathtaking shows, and educational programs are waiting for you!</p>
+        </section>
+
+
+        <section class="highlights">
+            <h2>What to expect:</h2>
+            <div id="expectCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                <div class="carousel-inner text-center">
+
+                    <div class="carousel-item active">
+                        <img src="~/images/animals/dolphin.jpg" class="d-block w-100" alt="Dolphin show">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p class="fs-5">Dolphin Shows</p>
+                            <p>Playful and smart — don't miss our dolphin performance!</p>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="~/images/animals/shark.jpg" class="d-block w-100" alt="Shark aquarium">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p class="fs-5">Shark Aquarium</p>
+                            <p>Get close to the kings of the deep sea.</p>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="~/images/animals/octopus.jpg" class="d-block w-100" alt="Deep sea life">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p class="fs-5">Deep Sea Creatures</p>
+                            <p>Discover the mysteries of the ocean floor.</p>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="~/images/animals/jellyfish.jpg" class="d-block w-100" alt="Jellyfish room">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p class="fs-5">Jellyfish Room</p>
+                            <p>"Step into the Jellyfish Room, where glowing creatures drift like living lanterns in a tranquil underwater ballet.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#expectCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#expectCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Ready for an adventure?</h2>
+            <p><a asp-page="/Tickets" class="btn btn-primary">Buy Tickets Online</a></p>
+        </section>
+    </div>
+</div>
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success mt-3">
+        <strong>Success!</strong> @TempData["success"]
+    </div>
+}

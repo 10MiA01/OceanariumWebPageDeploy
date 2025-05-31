@@ -1,0 +1,34 @@
+﻿@page
+@model LoginModel
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Admin Login</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label asp-for="AccessCode" class="form-label">Access Code</label>
+                        <input asp-for="AccessCode" class="form-control" placeholder="Enter admin access code" />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger mt-3" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success mt-3">
+        <strong>Success!</strong> @TempData["success"]
+    </div>
+}

@@ -1,0 +1,154 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Orders.IndexModel
+@{
+}
+<div class="container-fluid px-0 mt-5">
+	<h1 class="text-center">Orders panel</h1>
+	<div class="d-flex gap-4">
+		<div class="" style="min-width: 250px;">
+			<div>
+				<h2>Filter</h2>
+				<div class="mb-3">
+					<label for="filterOrderId" class="form-label">Order Id</label>
+					<input type="number" id="filterOrderId" placeholder="Order Id" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label for="buyerEmail" class="form-label">Buyer Email</label>
+					<input type="email" id="buyerEmail" placeholder="Buyer Email" class="form-control" />
+				</div>
+				<div class="mb-3  gap-3 w-100">
+					<div class="flex-grow-1">
+						<label for="filterDateFrom" class="form-label">Filter by date from</label>
+						<input type="date" name="DateFrom" class="form-control" id="filterDateFrom" />
+					</div>
+					<div class="flex-grow-1">
+						<label for="filterDateTo" class="form-label">Filter by date up to</label>
+						<input type="date" name="DateTo" class="form-control" id="filterDateTo" />
+					</div>
+				</div>
+				<div class="mb-3 d-flex align-items-end gap-3 w-100">
+					<div class="flex-grow-1">
+						<label for="ticketQuantityFrom" class="form-label">Tickets from</label>
+						<input type="number" id="ticketQuantityFrom" placeholder="Tickets from" class="form-control" />
+					</div>
+					<div class="flex-grow-1">
+						<label for="ticketQuantityTo" class="form-label">Tickets up to</label>
+						<input type="number" id="ticketQuantityTo" placeholder="Tickets up to" class="form-control" />
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="orderCode" class="form-label">Order code</label>
+					<input type="text" id="orderCode" placeholder="Order code" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label for="orderStatus" class="form-label">Order status</label>
+					<select class="form-select" id="orderStatus">
+						<option value="" selected disabled>Select status</option>
+						<option>Active</option>
+						<option>Cancelled</option>
+						<option>Refunded</option>
+						<option>Finished</option>
+					</select>
+				</div>
+				<div class="mb-3 d-flex align-items-end gap-3 w-100">
+					<div class="flex-grow-1">
+						<label for="totalAmounFrom" class="form-label">Total amount from</label>
+						<input type="number" id="totalAmounFrom" placeholder="Total amount from" class="form-control" />
+					</div>
+					<div class="flex-grow-1">
+						<label for="totalAmountTo" class="form-label">Total amount to</label>
+						<input type="number" id="totalAmountTo" placeholder="Total amount to" class="form-control" />
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="paymentMethod" class="form-label">Payment method</label>
+					<select class="form-select" id="paymentMethod">
+						<option value="" selected disabled>Payment method</option>
+						<option>Card</option>
+						<option>PayPal</option>
+						<option>Blik</option>
+					</select>
+				</div>
+				<button id="applyFilters" class="btn btn-secondary my-2 my-sm-0" type="submit">Filter</button>
+			</div>
+		</div>
+		<div class="flex-grow-1">
+			<table id="orderTableAdmin" class="table table-primary w-100">
+				<thead>
+					<tr>
+						<th>Order id</th>
+						<th>Buyer email</th>
+						<th>Created at</th>
+						<th>Total amount</th>
+						<th>Payment method</th>
+						<th>Order status</th>
+						<th>Order code</th>
+						<th>Tickets</th>
+						<th>Send email</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+			</table>
+			@if (TempData["success"] != null)
+			{
+				<div class="alert alert-success mt-3">
+					<strong>Success!</strong> @TempData["success"]
+				</div>
+			}
+			else if (TempData["warning"] != null)
+			{
+				<div class="alert alert-warning mt-3">
+					<strong>Warning!</strong> @TempData["warning"]
+				</div>
+			}
+			<div class="mt-3">
+				<a asp-page="./Create" class="btn btn-primary">
+					<i class="bi bi-plus-circle"></i> Create new order
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@* cancel modal *@
+<div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content text-center">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmCancelModalLabel">Confirm delete</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">Are you sure you want to delete the order?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, keep it</button>
+				<button type="button" class="btn btn-danger" id="confirmCancelButton">Yes, delete it</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@* confirm send email *@
+
+<div class="modal fade" id="confirmEmailSendModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content text-center">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmEmailSendLabel">Confirm email send</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">Do you want to send the order?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, go back</button>
+				<button type="button" class="btn btn-danger" id="confirmEmailSendButton">Yes, send it</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script src="~/js/AdminOrderDataTable.js"></script>
+}
+

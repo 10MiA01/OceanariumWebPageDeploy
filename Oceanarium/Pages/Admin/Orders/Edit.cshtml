@@ -1,0 +1,83 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Orders.EditModel
+@{
+}
+<form method="post">
+	<input asp-for="changeOrder.Id" hidden />
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Edit Orer</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="changeOrder.BuyerEmail" class="form-label"></label>
+			<input asp-for="changeOrder.BuyerEmail" class="form-control" />
+			<span asp-validation-for="changeOrder.BuyerEmail" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeOrder.CreatedAt" class="form-label"></label>
+			<input asp-for="changeOrder.CreatedAt" class="form-control" type="datetime-local" readonly />
+			<span asp-validation-for="changeOrder.CreatedAt" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeOrder.TotalAmount" class="form-label"></label>
+			<input asp-for="changeOrder.TotalAmount" class="form-control" type="text" inputmode="decimal" />
+			<span asp-validation-for="changeOrder.TotalAmount" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeOrder.PaymentMethod" class="form-label"></label>
+			<input asp-for="changeOrder.PaymentMethod" class="form-control" readonly />
+			<span asp-validation-for="changeOrder.PaymentMethod" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeOrder.OrderStatus" class="form-label"></label>
+			<select asp-for="changeOrder.OrderStatus" class="form-control">
+				<option value="Active">Active</option>
+				<option value="Cancelled">Cancelled</option>
+				<option value="Refunded">Refunded</option>
+				<option value="Finished">Finished</option>
+			</select>
+			<span asp-validation-for="changeOrder.OrderStatus" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeOrder.OrderCode" class="form-label"></label>
+			<input asp-for="changeOrder.OrderCode" class="form-control" readonly />
+			<span asp-validation-for="changeOrder.OrderCode" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6 col-md-3">
+			<button type="submit" class="btn btn-primary form-control">Edit</button>
+		</div>
+		<div class="col-6 col-md-3">
+			<a asp-page="./Index" class="btn btn-outline-secondary border form-control">
+				Back to List
+			</a>
+		</div>
+	</div>
+
+</form>
+
+@if (!ModelState.IsValid)
+{
+	<div class="alert alert-danger">
+		<ul>
+			@foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+			{
+				<li>@error.ErrorMessage</li>
+			}
+		</ul>
+	</div>
+}
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+
+	}
+}

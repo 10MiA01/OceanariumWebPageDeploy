@@ -1,0 +1,66 @@
+﻿@page
+@model Oceanarium.Pages.ExpositionModel
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="container text-center mt-5">
+            <h1>Exibitions</h1>
+
+
+        <section class="highlights">
+            
+            <div id="permanentCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <h2>Permanent Exhibitions</h2>
+                    @foreach (var obj in Model.Exposition.Where(u => u.IsPermanent == true).OrderBy(u => u.Id))
+                    {
+                        var isActive = obj == Model.Exposition.Where(u => u.IsPermanent).OrderBy(u => u.Id).First();
+                        <div class="carousel-item @(isActive ? "active" : "")">
+                            <img src="@obj.ImageUrl" class="d-block w-100" alt="@obj.Name">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p class="fs-5">@obj.Name</p>
+                                <p>@obj.Description</p>
+                            </div>
+                        </div>
+                    }
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#permanentCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#permanentCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>   
+
+            <div id="temporaryCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <h2>Temporary Exhibitions</h2>
+                    @foreach (var obj in Model.Exposition.Where(u => u.IsPermanent == false).OrderBy(u => u.Id))
+                    {
+                        var isActive = obj == Model.Exposition.Where(u => u.IsPermanent == false).OrderBy(u => u.Id).First();
+                        <div class="carousel-item @(isActive ? "active" : "")">
+                            <img src="@obj.ImageUrl" class="d-block w-100" alt="@obj.Name">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p class="fs-5">@obj.Name</p>
+                                <p>@obj.Description</p>
+                                <p>From @obj.StartDate?.ToString("dd.MM.yyyy") till @obj.EndDate?.ToString("dd.MM.yyyy")</p>
+                            </div>
+                        </div>
+                    }
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#temporaryCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#temporaryCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta mt-3">
+            <p><a asp-page="/Tickets" class="btn btn-primary">Buy Tickets</a></p>
+        </section>
+        
+    </div>
+</div>

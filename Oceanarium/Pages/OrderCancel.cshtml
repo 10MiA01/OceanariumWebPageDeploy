@@ -1,0 +1,88 @@
+﻿@page
+@model Oceanarium.Pages.OrderCancelModel
+@{
+}
+
+<div class="container text-center mt-5">
+	<h1>Your order:</h1>
+	<h2>If you cancel order or ticket you can't redo it, so be carful ;)</h2>
+	<div class="container">
+		<div class="p-3 mb-4">
+			<h4>Order Info</h4>
+			<p>Event: <strong>@Model.OrderCancel.EventName</strong></p>
+			<p>Status: <strong>@Model.OrderCancel.OrderStatus</strong></p>
+			<p>Event date: <strong>@Model.OrderCancel.StartDate.ToShortDateString()</strong></p>
+			<p>Event time: <strong>@Model.OrderCancel.StartDate.ToString("HH:mm") — @Model.OrderCancel.EndDate.ToString("HH:mm")</strong></p>
+			<p>Purchase: <strong>@Model.OrderCancel.OrderDate.ToShortDateString()</strong></p>
+			<p>Total amount: <strong>@Model.OrderCancel.TotalAmount</strong></p>
+			@if (Model.OrderCancel.OrderStatus == "Cancelled")
+			{
+				<h2>The order was cancelled</h2>
+			}
+			@if (Model.OrderCancel.OrderStatus == "Refunded")
+			{
+				<h2>The order was refunded</h2>
+			}
+			<form method="post" asp-page-handler="CancelOrder">
+				<input type="hidden" name="orderId" value="@Model.OrderCancel.OrderId" />
+				<input type="hidden" name="code" value="@Model.OrderCancel.OrderCode" />
+				<button type="button" class="btn btn-lg btn-outline-secondary cancel-button" @(Model.OrderCancel.OrderStatus == "Cancelled" || Model.OrderCancel.OrderStatus == "Refunded" ? "disabled='disabled'" : "")>Cancel</button>
+			</form>
+		</div>
+		<h2>Tickets: @Model.OrderCancel.Tickets.Count()</h2>
+		<table class="table table-primary">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Price</th>
+					<th>Status</th>
+					<th>Cancel</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var ticket in Model.OrderCancel.Tickets)
+				{
+					<tr>
+						<td>@ticket.DiscountType</td>
+						<td>@ticket.TicketPrice</td>
+						<td>@ticket.Status</td>
+						<td>
+							<form method="post" asp-page-handler="CancelTicket" class="cancel-form">
+								<input type="hidden" name="ticketId" value="@ticket.Id"/>
+								<input type="hidden" name="code" value="@Model.OrderCancel.OrderCode" />
+								<button type="button" class="btn btn-sm btn-outline-secondary cancel-button" @(ticket.Status == "Cancelled" || ticket.Status == "Refunded" ? "disabled='disabled'" : "")>Cancel</button>
+							</form>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		@if (TempData["success"] != null)
+		{
+			<div class="alert alert-success mt-3">
+				<strong>Success!</strong> @TempData["success"]
+			</div>
+		}
+	</div>
+</div>
+
+<div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content text-center">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmCancelModalLabel">Confirm cancelation</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">Are you sure you want to cancel?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, keep it</button>
+				<button type="button" class="btn btn-danger" id="confirmCancelButton">Yes, cancel it</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script src="~/js/cancelOrder.js"></script>
+}
+

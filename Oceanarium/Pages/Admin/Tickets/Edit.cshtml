@@ -1,0 +1,80 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Tickets.EditModel
+@{
+}
+
+<form method="post">
+	<input asp-for="changeTicket.Id" hidden />
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Edit Orer</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="changeTicket.EventId" class="form-label"></label>
+			<input asp-for="changeTicket.EventId" class="form-control" readonly />
+			<span asp-validation-for="changeTicket.EventId" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeTicket.OrderId" class="form-label"></label>
+			<input asp-for="changeTicket.OrderId" class="form-control" readonly />
+			<span asp-validation-for="changeTicket.OrderId" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeTicket.PurchaseDate" class="form-label"></label>
+			<input asp-for="changeTicket.PurchaseDate" class="form-control" type="datetime-local" readonly />
+			<span asp-validation-for="changeTicket.PurchaseDate" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeTicket.DiscountType" class="form-label"></label>
+			<input asp-for="changeTicket.DiscountType" class="form-control" readonly />
+			<span asp-validation-for="changeTicket.DiscountType" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="changeTicket.Status" class="form-label"></label>
+			<select asp-for="changeTicket.Status" class="form-control">
+				<option value="Active">Active</option>
+				<option value="Cancelled">Cancelled</option>
+				<option value="Refunded">Refunded</option>
+				<option value="Finished">Finished</option>
+			</select>
+			<span asp-validation-for="changeTicket.Status" class="text-danger"></span>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-6 col-md-3">
+			<button type="submit" class="btn btn-primary form-control">Edit</button>
+		</div>
+		<div class="col-6 col-md-3">
+			<a asp-page="./Index" class="btn btn-outline-secondary border form-control">
+				Back to List
+			</a>
+		</div>
+	</div>
+
+</form>
+
+@if (!ModelState.IsValid)
+{
+	<div class="alert alert-danger">
+		<ul>
+			@foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+			{
+				<li>@error.ErrorMessage</li>
+			}
+		</ul>
+	</div>
+}
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+
+	}
+}
+

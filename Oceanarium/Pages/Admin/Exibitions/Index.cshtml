@@ -1,0 +1,100 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Exibitions.IndexModel
+@{
+}
+
+<div class=" container-fluid px-0 mt-5">
+	<h1 class="text-center">Exibitions panel</h1>
+	<div class="d-flex gap-4">
+		<div class="" style="min-width: 250px;">
+			<div>
+				<h2>Filter</h2>
+				<div class="mb-3">
+					<label for="filterExibitionId" class="form-label">Exibition Id</label>
+					<input type="number" id="filterExibitionId" placeholder="Exibition Id" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label for="exibitionName" class="form-label">Exibition name</label>
+					<input type="text" id="exibitionName" placeholder="Exibition name contains" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label for="exibitionDescription" class="form-label">Exibition description</label>
+					<input type="text" id="exibitionDescription" placeholder="Exibition description contains" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label class="form-check-label" for="exibitionIsPermanent">Duration</label>
+					<select id="exibitionIsPermanent" class="form-control">
+						<option value="">All</option>
+						<option value="true">Permanent</option>
+						<option value="false">Temporary</option>
+					</select>
+				</div>
+				<div class="mb-3  align-items-end gap-3 w-100">
+					<div class="flex-grow-1">
+						<label for="exibitionStartDate" class="form-label">Filter by date from</label>
+						<input type="date" name="exibitionStartDate" class="form-control" id="exibitionStartDate" />
+					</div>
+					<div class="flex-grow-1">
+						<label for="exibitionEndDate" class="form-label">Ends till</label>
+						<input type="date" name="exibitionEndDate" class="form-control" id="exibitionEndDate" />
+					</div>
+				</div>
+				<button id="applyFilters" class="btn btn-secondary my-2 my-sm-0" type="submit">Filter</button>
+			</div>
+		</div>
+		<div class="flex-grow-1">
+			<table id="exibitionTableAdmin" class="table table-primary">
+				<thead>
+					<tr>
+						<th>Exibition id</th>
+						<th>Exibition name</th>
+						<th>Description</th>
+						<th>Is permanent</th>
+						<th>Start date</th>
+						<th>End date</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+			</table>
+			@if (TempData["success"] != null)
+			{
+				<div class="alert alert-success mt-3">
+					<strong>Success!</strong> @TempData["success"]
+				</div>
+			}
+			else if (TempData["warning"] != null)
+			{
+				<div class="alert alert-warning mt-3">
+					<strong>Warning!</strong> @TempData["warning"]
+				</div>
+			}
+			<div class="mt-3">
+				<a asp-page="./Create" class="btn btn-primary">
+					<i class="bi bi-plus-circle"></i> Create new exibition
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+@* cancel modal *@
+<div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content text-center">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmCancelModalLabel">Confirm delete</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">Are you sure you want to delete the exibition?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, keep it</button>
+				<button type="button" class="btn btn-danger" id="confirmCancelButton">Yes, delete it</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script src="~/js/AdminExibitionsDataTable.js"></script>
+}

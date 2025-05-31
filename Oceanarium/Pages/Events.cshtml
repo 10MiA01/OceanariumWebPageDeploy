@@ -1,0 +1,75 @@
+﻿@page
+@model Oceanarium.Pages.EventsModel
+
+
+<div class="container text-center mt-5">
+	<h1>Upcoming events</h1>
+	<div class="d-flex">
+		<div class="me-4" style="min-width: 250px;">
+			<div class="mb-3">
+				<label for="eventName" class="form-label">Search by name</label>
+				<input id="eventName" name="eventName" class="form-control me-sm-2" type="search" placeholder="Search by name">
+			</div>
+			<div class="mb-3">
+				<label for="eventDescription" class="form-label">Search in description</label>
+				<input id="eventDescription" name="eventDescription" class="form-control me-sm-2" type="search" placeholder="Search in description">
+			</div>
+			<div class="mb-3  gap-3 w-100">
+				<div class="flex-grow-1">
+					<label for="eventStartDate" class="form-label">Filter by date from</label>
+					<input type="date" name="eventStartDate" class="form-control" id="eventStartDate" />
+				</div>
+				<div class="flex-grow-1">
+					<label for="eventEndDate" class="form-label">Till</label>
+					<input type="date" name="eventEndDate" class="form-control" id="eventEndDate" />
+				</div>
+			</div>
+			<div class="mb-3 d-flex align-items-end gap-3 w-100">
+				<div class="flex-grow-1">
+					<label for="eventStartTime" class="form-label">From:</label>
+					<input type="time" name="eventStartTime" class="form-control" id="eventStartTime" min="08:00" max="18:00" />
+				</div>
+				<div class="flex-grow-1">
+					<label for="eventEndTime" class="form-label">Till:</label>
+					<input type="time" name="eventEndTime" class="form-control" id="eventEndTime" min="09:00" max="20:00" />
+				</div>
+			</div>
+			<div class="mb-3">
+				<label for="eventDuration" class="form-label">Duration</label>					
+				<input type="number" id="eventDuration" placeholder="Duration" class="form-control" max="12" />
+			</div>
+			<div class="mb-3">
+				<div class="form-label">Select price</div>
+				<input type="range" class="form-range" min="0" max="500" step="0.5" id="eventMinPrice" name="eventMinPrice">
+				<input type="range" class="form-range" min="0" max="500" step="0.5" id="eventMaxPrice" name="eventMaxPrice">
+			</div>
+			<div class="mb-3">
+				<label for="eventTicketsAvailable" class="form-label">Tickets available</label>
+				<input id="eventTicketsAvailable" name="eventTicketsAvailable" class="form-control me-sm-2" type="number" placeholder="Enter min number of tickets" min="1" step="1">
+			</div>
+				
+			<button id="applyFilters" class="btn btn-secondary my-2 my-sm-0">Filter</button>
+		</div>
+		<div class="flex-grow-1">
+			<table id="eventTableClient" class="table table-primary">
+				<thead>
+					<tr>
+						<th>Event</th>
+						<th>Description</th>
+						<th>Date</th>
+						<th>Time</th>
+						<th>Normal price</th>
+						<th>For children till 12</th>
+						<th>Other discounts</th>
+						<th>Tickets available</th>
+						<th>Buy</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div> 
+
+@section Scripts {
+	<script src="~/js/ClientEventsDataTable.js"></script>
+}

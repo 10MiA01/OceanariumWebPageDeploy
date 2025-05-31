@@ -1,0 +1,144 @@
+﻿@page
+@model Oceanarium.Pages.Admin.Events.IndexModel
+@{
+}
+<div class="container-fluid text-center mt-5">
+	<h1 class="text-center">Events panel</h1>
+	<div class="d-flex gap-4">
+		<div class="" style="min-width: 250px;">
+			<div>
+				<h2>Filter</h2>
+				<div class="mb-3">
+					<label for="filterEventId" class="form-label">Event Id</label>
+					<input type="number" id="filterEventId" placeholder="Event Id" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label for="eventName" class="form-label">Event name</label>
+					<input type="text" id="eventName" placeholder="Event name contains" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label for="eventDescription" class="form-label">Event description</label>
+					<input type="text" id="eventDescription" placeholder="Event description contains" class="form-control" />
+				</div>
+				<div class="mb-3 align-items-end gap-3 w-100">
+					<div class="flex-grow-1">
+						<label for="eventStartDate" class="form-label">Filter by date from</label>
+						<input type="date" name="eventStartDate" class="form-control" id="eventStartDate" />
+					</div>
+					<div class="flex-grow-1">
+						<label for="eventEndDate" class="form-label">Till</label>
+						<input type="date" name="eventEndDate" class="form-control" id="eventEndDate" />
+					</div>	
+				</div>
+				<div class="mb-3 d-flex align-items-end gap-3 w-100">
+					<div class="flex-grow-1">
+						<label for="eventStartTime" class="form-label">Starts from</label>
+						<input type="time" name="eventStartTime" class="form-control" id="eventStartTime" />
+					</div>
+					<div class="flex-grow-1">
+						<label for="eventEndTime" class="form-label">Ends till</label>
+						<input type="time" name="eventEndTime" class="form-control" id="eventEndTime" />
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="eventDuration" class="form-label">Duration</label>
+					<input type="number" id="eventDuration" placeholder="Duration" class="form-control" max="12" />
+				</div>
+				<div class="mb-3 d-flex align-items-end gap-3 w-100">
+					<div>
+						<label for="eventMinPrice" class="form-label">Min price</label>
+						<input type="number" id="eventMinPrice" placeholder="Min price" class="form-control" />
+					</div>
+					<div>
+						<label for="eventMaxPrice" class="form-label">Max price</label>
+						<input type="number" id="eventMaxPrice" placeholder="Max price" class="form-control" />
+					</div>
+				</div>
+				<div class="mb-3 d-flex align-items-end gap-3 w-100">
+					<div>
+						<label for="eventTicketsMaxMin" class="form-label">Max tickets (min)</label>
+						<input type="number" id="eventTicketsMaxMin" placeholder="Max tickets (min)" class="form-control" />
+					</div>
+					<div>
+						<label for="eventTicketsMaxMax" class="form-label">Max tickets (max)</label>
+						<input type="number" id="eventTicketsMaxMax" placeholder="Max tickets (max)" class="form-control" />
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="eventTicketsAvailable" class="form-label">Tickets available</label>
+					<input type="number" id="eventTicketsAvailable" placeholder="Tickets available" class="form-control" />
+				</div>
+				<div class="mb-3">
+					<label for="eventStatus" class="form-label">Event status</label>
+					<select class="form-select" id="eventStatus">
+						<option value="" selected disabled>Select status</option>
+						<option>Active</option>
+						<option>Cancelled</option>
+						<option>Refunded</option>
+						<option>Finished</option>
+					</select>
+				</div>
+				<button id="applyFilters" class="btn btn-secondary my-2 my-sm-0" type="submit">Filter</button>
+			</div>
+		</div>
+		<div class="flex-grow-1">
+			<table id="eventTableAdmin" class="table table-primary">
+				<thead>
+					<tr>
+						<th>Event id</th>
+						<th>Event name</th>
+						<th>Description</th>
+						<th>Start date</th>
+						<th>End date</th>
+						<th>Price</th>
+						<th>Max tickets (default)</th>
+						<th>Max tickets (current)</th>
+						<th>Status</th>
+						<th>Tickets manage</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+			</table>
+			@if (TempData["success"] != null)
+			{
+				<div class="alert alert-success mt-3">
+					<strong>Success!</strong> @TempData["success"]
+				</div>
+			}
+			else if (TempData["warning"] != null)
+			{
+				<div class="alert alert-warning mt-3">
+					<strong>Warning!</strong> @TempData["warning"]
+				</div>
+			}
+			<div class="mt-3">
+				<a asp-page="./Create" class="btn btn-primary">
+					<i class="bi bi-plus-circle"></i> Create new event
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+@* cancel modal *@
+<div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content text-center">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmCancelModalLabel">Confirm delete</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">Are you sure you want to delete the event?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, keep it</button>
+				<button type="button" class="btn btn-danger" id="confirmCancelButton">Yes, delete it</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script src="~/js/AdminEventsDataTable.js"></script>
+}
+
