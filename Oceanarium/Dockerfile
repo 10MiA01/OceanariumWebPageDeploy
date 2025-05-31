@@ -15,6 +15,9 @@ RUN dotnet restore "./Oceanarium.csproj"
 COPY . .
 RUN dotnet build "./Oceanarium.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+RUN mkdir -p /data
+COPY Data/Oceanarium.db /data/
+
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Oceanarium.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
@@ -23,6 +26,6 @@ FROM base AS final
 WORKDIR /app
 RUN mkdir -p /app/Data
 COPY --from=publish /app/publish .
-COPY Data/Oceanarium.db /app/Data/Oceanarium.db
+COPY --from=publish /data /data
 
 ENTRYPOINT ["dotnet", "Oceanarium.dll"]
