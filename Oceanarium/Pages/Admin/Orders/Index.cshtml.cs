@@ -134,11 +134,12 @@ namespace Oceanarium.Pages.Admin.Orders
                 orderToSend.BuyerEmail,
                 "Order Confirmation",
                 $"Your order has been placed.<br/>Total amount: {orderToSend.TotalAmount}<br/>" +
-                $"You can manage your order here: <a href='{cancelUrl}'>{cancelUrl}</a><br/>" +
                 $"This is your code for entrance:",
-                qrCodeImage);
+                EmailMessageType.OrderConfirmation,
+                qrCodeImage,
+                orderToSend.OrderCode);
 
-            
+
             TempData["success"] = "Order sent successfully.";
             return RedirectToPage("./Index");
         }

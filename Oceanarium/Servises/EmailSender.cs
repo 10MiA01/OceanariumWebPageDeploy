@@ -13,18 +13,39 @@ namespace Oceanarium.Servises
     public class EmailSender : IEmailSender
     {
         private readonly MailSettings _mailSettings;
+        private readonly string _baseUrl;
 
-        public EmailSender(IOptions<MailSettings> mailSettings)
+        private string? GetLinkForMessageType(EmailMessageType type, string? code)
         {
-            _mailSettings = mailSettings.Value;
+            if (string.IsNullOrWhiteSpace(code))
+                return null;
+
+            var paths = new Dictionary<EmailMessageType, string>
+            {
+                { EmailMessageType.OrderConfirmation, $"/OrderCancel?code={code}" },
+            };
+
+            return paths.TryGetValue(type, out var path) ? $"{_baseUrl}{path}" : null;
         }
 
-        public async Task SendEmailAsync(string toEmail, string subject, string htmlMessage, byte[] qrCodeImage = null)
+        public EmailSender(IOptions<MailSettings> mailSettings, IConfiguration configuration)
+        {
+            _mailSettings = mailSettings.Value;
+            _baseUrl = configuration["AppSettings:BaseUrl"] ?? "https://localhost:7102";
+        }
+
+        public async Task SendEmailAsync(string toEmail, string subject, string htmlMessage, EmailMessageType messageType = EmailMessageType.Generic, byte[] qrCodeImage = null, string? code = null)
         {
             var client = new SendGridClient(_mailSettings.SendGridApiKey);
 
             var from = new EmailAddress(_mailSettings.SenderEmail, _mailSettings.SenderName);
             var to = new EmailAddress(toEmail);
+
+            string? link = GetLinkForMessageType(messageType, code);
+            if (!string.IsNullOrEmpty(link))
+            {
+                htmlMessage += $"<br/><a href='{link}'>{link}</a>";
+            }
 
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent: null, htmlContent: htmlMessage);
 
@@ -36,6 +57,9 @@ namespace Oceanarium.Servises
             }
 
             var response = await client.SendEmailAsync(msg);
+
+            Console.WriteLine($"StatusCode: {response.StatusCode}");
+            Console.WriteLine(await response.Body.ReadAsStringAsync());
 
             if (!response.IsSuccessStatusCode)
             {

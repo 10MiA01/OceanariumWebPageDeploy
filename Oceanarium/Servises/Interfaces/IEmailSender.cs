@@ -2,6 +2,8 @@
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(string email, string subject, string htmlMessage, byte[] qrCodeImage = null);
+        Task SendEmailAsync(string email, string subject, string htmlMessage,
+            EmailMessageType messageType = EmailMessageType.Generic,
+            byte[] qrCodeImage = null, string? code = null);
     }
 }

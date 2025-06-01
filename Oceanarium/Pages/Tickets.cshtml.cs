@@ -146,7 +146,6 @@ namespace Oceanarium.Pages
             //creating data for email
 
             byte[] qrCodeImage = _qrCodeCreator.GenerateQrCode(order.OrderCode);
-            var cancelUrl = $"https://localhost:7102/OrderCancel?code={order.OrderCode}";
 
             //sending email
 
@@ -154,9 +153,10 @@ namespace Oceanarium.Pages
                 TicketsOrder.BuyerEmail,
                 "Order Confirmation",
                 $"Your order has been placed.<br/>Total amount: {TicketsOrder.TotalAmount}<br/>" +
-                $"You can manage your order here: <a href='{cancelUrl}'>{cancelUrl}</a><br/>" +
                 $"This is your code for entrance:",
-                qrCodeImage);
+                EmailMessageType.OrderConfirmation,
+                qrCodeImage,
+                order.OrderCode);
 
             TempData["success"] = "Your order has been placed.";
             EventsList = _db.Events.ToList();
