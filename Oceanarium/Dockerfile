@@ -28,6 +28,7 @@ WORKDIR /app
 
 USER root
 RUN mkdir -p /data && chmod -R 777 /data
+RUN mkdir -p /app/wwwroot/images/animals && chmod -R 777 /app/wwwroot/images
 COPY --from=publish /app/publish .
 COPY --from=publish /data /data
 RUN chmod -R 777 /data/Oceanarium.db

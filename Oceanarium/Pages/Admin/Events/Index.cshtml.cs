@@ -72,7 +72,7 @@ namespace Oceanarium.Pages.Admin.Events
             {
                 return NotFound();
             }
-            if ((toDelete.Status != "Finished") || (toDelete.Status != "Refunded"))
+            if ((toDelete.Status != "Finished") && (toDelete.Status != "Refunded"))
             {
                 TempData["warning"] = "You can delete only refunded or finished event.";
             }
