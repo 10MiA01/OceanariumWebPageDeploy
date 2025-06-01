@@ -21,6 +21,7 @@ COPY Data/Oceanarium.db /data/
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Oceanarium.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+COPY Data/AdminKeys.txt /app/publish/Data/AdminKeys.txt
 
 FROM base AS final
 WORKDIR /app
