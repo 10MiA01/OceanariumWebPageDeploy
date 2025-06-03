@@ -48,12 +48,12 @@ View: https://skyoceanarium.onrender.com/
 
 
 
-### 📝 Final Note
+## 📝 Final Note
 
 This project was a great learning experience — a bit of coding, a lot of coffee ☕, and lots of fun building something real.  
 Feel free to explore, test, and reach out if you have any questions or feedback!
 
-### 📬 PS
+## 📬 PS
 
 If you want to test the site, orders can be accessed via the URL pattern `/OrderCancel?code={orderCode}`.  
 Emails with the link may sometimes go to spam or get blocked, but you can always find the order code in the admin panel to test access directly.
